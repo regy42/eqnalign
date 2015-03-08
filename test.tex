@@ -1,0 +1,73 @@
+\documentclass{article}
+
+\usepackage{amsmath,amsthm}
+
+\usepackage{eqnalign}
+
+\usepackage{hyperref}
+
+\begin{document}
+
+\def\cshow{\expandafter\show\csname}
+%\cshow eqnarray*\endcsname
+
+The original \texttt{eqnarray*} would give this (we have to split it in separate lines):
+\begin{EQNarray*}
+	A & = & B
+,\\
+	\sin x & = & \cos x
+,\\
+		\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} = 0
+	&
+		\begin{array}{|@{}c@{}|}\Longleftrightarrow \\ \neq \end{array}
+	&
+		\mathrm{FALSE}
+,\\
+	C & \Longleftrightarrow & D
+,\\
+	\text{foo} & = & \text{bar}
+.
+\end{EQNarray*}
+
+\begin{proof}
+\texttt{eqnarray*} works in the same way as \texttt{align*}, even in \texttt{proof}:
+\tracingmacros=1
+\begin{eqnarray*}
+	A & = & B
+,&
+	\sin x & = & \cos x
+,\\
+		\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} = 0
+	&
+		\begin{array}{|@{}c@{}|}\Longleftrightarrow \\ \neq \end{array}
+	&
+		\mathrm{FALSE}
+,&
+	C & \Longleftrightarrow & D
+,&
+	\text{foo} & = & \text{bar}
+.\qedhere
+\end{eqnarray*}
+\end{proof}
+\tracingmacros=0
+
+\begin{proof}
+And the original \texttt{align*}:
+\begin{align*}
+	A & =  B
+,&
+	\sin x & =  \cos x
+,\\
+		\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} = 0
+	&
+		\begin{array}{|@{}c@{}|}\Longleftrightarrow \\ \neq \end{array}
+		\mathrm{FALSE}
+,&
+	C & \Longleftrightarrow D
+,&
+	\text{foo} & =  \text{bar}
+.\qedhere
+\end{align*}
+\end{proof}
+
+\end{document}
