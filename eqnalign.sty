@@ -1,0 +1,102 @@
+%!TEX ROOT=test.tex
+
+\ProvidesPackage{eqnalign}[2015/03/08 v0.1 Make eqnarray be align]
+
+% Make sure `amsmath` is loaded so that `align` is defined
+\RequirePackage{amsmath}
+
+% We group everything so that our `\catcode` changes are local, and we use `\gdef` everywhere
+\begingroup
+
+% Stored original `&`
+\catcode`\&=4
+\gdef\eqna@origamp{&}
+
+% Set `&` active in the scope of these hooks
+\catcode`\&\active
+
+% The `&` used inside `eqnarray`
+\gdef\eqna@newamp{%
+  \ifx\@currenvir\eqna@currenvir 
+    % If the inner-most environment is `eqnarray`, use `\eqna@doamp`
+    \eqna@doamp
+  \else
+    % If there's another environment inside `eqnarray`, use the original `&`
+    \eqna@origamp
+  \fi
+}
+
+% Three macros for `&` in different positions
+% The first `&` on a line is used
+\gdef\eqna@amp@i{\eqna@origamp\let\eqna@doamp\eqna@amp@ii}
+% The second one is not used
+\gdef\eqna@amp@ii{\let\eqna@doamp\eqna@amp@iii}
+% The third one is used again. We don't need another `\let` here
+%  because `\eqna@origamp` ends a group
+\gdef\eqna@amp@iii{\eqna@origamp}
+% The first one is the default
+\global\let\eqna@doamp\eqna@amp@i
+
+% Hook added at the beginning of "new `eqnarray`"
+\gdef\eqna@hook{%
+  % Store the current environment, which is `eqnarray` or `eqnarray*`
+  \let\eqna@currenvir\@currenvir
+  % Activate `&` and define its expansion
+  \catcode`\&\active
+  \let&\eqna@newamp % define `&` expansion
+  }
+
+% Set `*` letter so that we can redefine `eqnarray*`
+\catcode`\*11 %
+
+% The environment `eqnarray` is simply our hook and then `align`
+\gdef\eqnarray{\eqna@hook\align}
+\gdef\eqnarray*{\eqna@hook\align*}
+\global\let\endeqnarray\endalign
+\global\let\endeqnarray*\endalign*
+
+% To make `\qedhere` work, we need to hint `amsthm` that the two enironments are the same
+\global\let\eqnarray@qed\align@qed
+\global\let\eqnarray*@qed\align*@qed
+
+% End the group started above
+\endgroup
+
+% Let's keep the original `eqnarray` as `EQNarray` -- just as a sentiment
+\def\EQNarray{%
+   \stepcounter{equation}%
+   \def\@currentlabel{\p@equation\theequation}%
+   \global\@eqnswtrue
+   \m@th
+   \global\@eqcnt\z@
+   \tabskip\@centering
+   \let\\\@eqncr
+   $$\everycr{}\halign to\displaywidth\bgroup
+       \hskip\@centering$\displaystyle\tabskip\z@skip{##}$\@eqnsel
+      &\global\@eqcnt\@ne\hskip \tw@\arraycolsep \hfil${##}$\hfil
+      &\global\@eqcnt\tw@ \hskip \tw@\arraycolsep
+         $\displaystyle{##}$\hfil\tabskip\@centering
+      &\global\@eqcnt\thr@@ \hb@xt@\z@\bgroup\hss##\egroup
+         \tabskip\z@skip
+      \cr
+}
+\def\endEQNarray{%
+      \@@eqncr
+      \egroup
+      \global\advance\c@equation\m@ne
+   $$\@ignoretrue
+}
+\@namedef{EQNarray*}{\def\@eqncr{\nonumber\@seqncr}\EQNarray}
+\@namedef{endEQNarray*}{\nonumber\endEQNarray}
+
+% If `hyperref` is not loaded, but is loaded later, issue a warning
+\@ifpackageloaded{hyperref}{}{
+	\AtBeginDocument{
+		\@ifpackageloaded{hyperref}{
+			\@latex@warning{Package `eqnalign` should be loaded \MessageBreak after `hyperref`}
+		}{}
+	}
+}
+
+% That's all
+\endinput
