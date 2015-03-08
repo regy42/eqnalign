@@ -5,11 +5,13 @@
 % Make sure `amsmath` is loaded so that `align` is defined
 \RequirePackage{amsmath}
 
+%%% BEGIN GROUP HERE
+
 % We group everything so that our `\catcode` changes are local, and we use `\gdef` everywhere
 \begingroup
 
 % Stored original `&`
-\catcode`\&=4
+\catcode`\&=4 %
 \gdef\eqna@origamp{&}
 
 % Set `&` active in the scope of these hooks
@@ -17,13 +19,13 @@
 
 % The `&` used inside `eqnarray`
 \gdef\eqna@newamp{%
-  \ifx\@currenvir\eqna@currenvir 
-    % If the inner-most environment is `eqnarray`, use `\eqna@doamp`
-    \eqna@doamp
-  \else
-    % If there's another environment inside `eqnarray`, use the original `&`
-    \eqna@origamp
-  \fi
+	\ifx\@currenvir\eqna@currenvir 
+		% If the inner-most environment is `eqnarray`, use `\eqna@doamp`
+		\eqna@doamp
+	\else
+		% If there's another environment inside `eqnarray`, use the original `&`
+		\eqna@origamp
+	\fi
 }
 
 % Three macros for `&` in different positions
@@ -39,21 +41,26 @@
 
 % Hook added at the beginning of "new `eqnarray`"
 \gdef\eqna@hook{%
-  % Store the current environment, which is `eqnarray` or `eqnarray*`
-  \let\eqna@currenvir\@currenvir
-  % Activate `&` and define its expansion
-  \catcode`\&\active
-  \let&\eqna@newamp % define `&` expansion
-  }
+	% Store the current environment, which is `eqnarray` or `eqnarray*`
+	\let\eqna@currenvir\@currenvir
+	% Activate `&` and define its expansion
+	\catcode`\&\active
+	\let&\eqna@newamp % define `&` expansion
+}
 
 % Set `*` letter so that we can redefine `eqnarray*`
 \catcode`\*11 %
 
 % The environment `eqnarray` is simply our hook and then `align`
-\gdef\eqnarray{\eqna@hook\align}
-\gdef\eqnarray*{\eqna@hook\align*}
-\global\let\endeqnarray\endalign
-\global\let\endeqnarray*\endalign*
+% We make it a command that we execute it immediately afterwards,
+%  so that we may try to correct things later.
+\gdef\eqna@define@environments{%
+	\gdef\eqnarray{\eqna@hook\align}%
+	\gdef\eqnarray*{\eqna@hook\align*}%
+	\global\let\endeqnarray\endalign
+	\global\let\endeqnarray*\endalign*
+}
+\eqna@define@environments
 
 % To make `\qedhere` work, we need to hint `amsthm` that the two enironments are the same
 \global\let\eqnarray@qed\align@qed
@@ -62,29 +69,31 @@
 % End the group started above
 \endgroup
 
+%%% END GROUP HERE
+
 % Let's keep the original `eqnarray` as `EQNarray` -- just as a sentiment
 \def\EQNarray{%
-   \stepcounter{equation}%
-   \def\@currentlabel{\p@equation\theequation}%
-   \global\@eqnswtrue
-   \m@th
-   \global\@eqcnt\z@
-   \tabskip\@centering
-   \let\\\@eqncr
-   $$\everycr{}\halign to\displaywidth\bgroup
-       \hskip\@centering$\displaystyle\tabskip\z@skip{##}$\@eqnsel
-      &\global\@eqcnt\@ne\hskip \tw@\arraycolsep \hfil${##}$\hfil
-      &\global\@eqcnt\tw@ \hskip \tw@\arraycolsep
-         $\displaystyle{##}$\hfil\tabskip\@centering
-      &\global\@eqcnt\thr@@ \hb@xt@\z@\bgroup\hss##\egroup
-         \tabskip\z@skip
-      \cr
+	\stepcounter{equation}%
+	\def\@currentlabel{\p@equation\theequation}%
+	\global\@eqnswtrue
+	\m@th
+	\global\@eqcnt\z@
+	\tabskip\@centering
+	\let\\\@eqncr
+	$$\everycr{}\halign to\displaywidth\bgroup
+		 \hskip\@centering$\displaystyle\tabskip\z@skip{##}$\@eqnsel
+		&\global\@eqcnt\@ne\hskip \tw@\arraycolsep \hfil${##}$\hfil
+		&\global\@eqcnt\tw@ \hskip \tw@\arraycolsep
+			$\displaystyle{##}$\hfil\tabskip\@centering
+		&\global\@eqcnt\thr@@ \hb@xt@\z@\bgroup\hss##\egroup
+			\tabskip\z@skip
+		\cr
 }
 \def\endEQNarray{%
-      \@@eqncr
-      \egroup
-      \global\advance\c@equation\m@ne
-   $$\@ignoretrue
+		\@@eqncr
+		\egroup
+		\global\advance\c@equation\m@ne
+	$$\@ignoretrue
 }
 \@namedef{EQNarray*}{\def\@eqncr{\nonumber\@seqncr}\EQNarray}
 \@namedef{endEQNarray*}{\nonumber\endEQNarray}
@@ -93,7 +102,9 @@
 \@ifpackageloaded{hyperref}{}{
 	\AtBeginDocument{
 		\@ifpackageloaded{hyperref}{
-			\@latex@warning{Package `eqnalign` should be loaded \MessageBreak after `hyperref`}
+			\@latex@warning{Package `eqnalign` should be loaded after `hyperref`.\MessageBreak
+			Redefining `eqnarray` and `eqnarray*` and crossing\MessageBreak fingers...}
+			\eqna@define@environments
 		}{}
 	}
 }
