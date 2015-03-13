@@ -4,10 +4,33 @@
 
 \usepackage{eqnalign}
 
+
 \usepackage{hyperref}
 
 \begin{document}
 
+\makeatletter
+\renewenvironment{eqnarray}
+  {\activateand\align}
+  {\endalign}
+\let\ampersand=&
+\def\activateand{%
+  \catcode`&=\active
+  \begingroup\lccode`~=`&
+  \lowercase{\endgroup\let~}\doampersand
+  \global\ampersandtrue
+}
+\newif\ifampersand
+\def\doampersand{%
+  \ifampersand
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\ampersand\global\ampersandfalse}%
+  {\global\ampersandtrue}%
+}
+\makeatother
 \def\cshow{\expandafter\show\csname}
 %\cshow eqnarray*\endcsname
 
