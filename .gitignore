@@ -1,6 +1,7 @@
 *~
 *.aux
 *.blg
+*.fls
 *.ilg
 *.idx
 *.lof
@@ -10,3 +11,5 @@
 *.synctex.gz
 *.sh
 *.toc
+eqnalign-1.*
+eqnalign-test.pdf
