@@ -11,7 +11,7 @@ Especially, we do not advise to use it in anything that is to be submitted
 - `eqnalign.ins` - the package installer
 - `eqnalign.sty` - the compiled package
 - `eqnalign.pdf` - the compiled documentation
-- `eqnalign-test` - a test file
+- `eqnalign-test.tex` - a test file
 - `README.md` - this Readme
 - `LICENSE` - the license information
 
