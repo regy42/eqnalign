@@ -141,7 +141,7 @@
 %    We need a catcode-13 (active) |&| througout the rest of the package.
 %    \begin{macrocode}
 \catcode`\&=4
-\gdef\eqna@origamp{&}
+\gdef\eqna@tab@amp{&}
 \catcode`\&=13
 %    \end{macrocode}
 % \end{macro}
@@ -155,7 +155,7 @@
 	\ifx\@currenvir\eqna@currenvir 
 		\eqna@doamp
 	\else
-		\eqna@origamp
+		\eqna@tab@amp
 	\fi
 }
 %    \end{macrocode}
