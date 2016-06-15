@@ -7,34 +7,24 @@
 %% eqnalign-1.dtx  (with options: `package')
 %% ----------------------------------------------------------------
 %% eqnalign --- make eqnarray behave like align
+%% Author: Tom Hejda (a.k.a. tohecz or yo')
 %% E-mail: tohecz@gmail.com
 %% Released under the LaTeX Project Public License v1.3c or later
 %% See http://www.latex-project.org/lppl.txt
+%% Status: author-maintained
 %% ----------------------------------------------------------------
 %% 
-%% These lines, starting with two "%", will be extracted so can be used
-%% to copy some kind of header into target (.sty) files: the team .dtx
-%% use this to dump the copyright header from the meta-comment block into
-%% the output.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ProvidesPackage{eqnalign}[2016/06/09 v1.0 Make eqnarray(*) behave like align(*).]
 \RequirePackage{amsmath}
 \begingroup
 \catcode`\&=4
-\gdef\eqna@origamp{&}
+\gdef\eqna@tab@amp{&}
 \catcode`\&=13
 \gdef\eqna@newamp{%
    \ifx\@currenvir\eqna@currenvir
       \eqna@doamp
    \else
-      \eqna@origamp
+      \eqna@tab@amp
    \fi
 }
 \gdef\eqna@amp@i{\eqna@origamp\let\eqna@doamp\eqna@amp@ii}
@@ -85,8 +75,8 @@
 \@ifpackageloaded{hyperref}{}{
    \AtBeginDocument{
       \@ifpackageloaded{hyperref}{
-         \@latex@warning{Package `eqnalign` should be loaded after `hyperref`.\MessageBreak
-         Redefining `eqnarray` and `eqnarray*` and crossing\MessageBreak fingers...}
+         \@latex@warning{Package `eqnalign' should be loaded after `hyperref'.\MessageBreak
+         Redefining `eqnarray' and `eqnarray*' at this point \MessageBreak and crossing fingers...}
          \eqna@def@env
       }{}
    }
