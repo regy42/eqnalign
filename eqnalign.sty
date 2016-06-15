@@ -14,7 +14,7 @@
 %% Status: author-maintained
 %% ----------------------------------------------------------------
 %% 
-\ProvidesPackage{eqnalign}[2016/06/09 v1.0 Make eqnarray(*) behave like align(*).]
+\ProvidesPackage{eqnalign}[2016/06/15 v1.0a Make eqnarray(*) behave like align(*).]
 \RequirePackage{amsmath}
 \begingroup
 \catcode`\&=4
@@ -22,9 +22,9 @@
 \catcode`\&=13
 \gdef\eqna@new@amp{%
    \ifx\@currenvir\eqna@currenvir
-      \eqna@amp@
+      \expandafter\eqna@amp@
    \else
-      \eqna@tab@amp
+      \expandafter\eqna@tab@amp
    \fi
 }
 \gdef\eqna@amp@i{\eqna@tab@amp\let\eqna@amp@\eqna@amp@ii}
