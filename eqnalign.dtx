@@ -4,10 +4,6 @@
 % This part is not going to appear anywhere so is good for 'header'
 % information.
 %
-%% These lines, starting with two "%", will be extracted so can be used
-%% to copy some kind of header into target (.sty) files: the team .dtx
-%% use this to dump the copyright header from the meta-comment block into
-%% the output.
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -79,26 +75,26 @@
 % \endgroup
 % \vspace*{2cm}
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{The goal}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % The goal of this package is to allow easy conversion from the insanely-looking |eqnarray| to
 %  the look and behaviour of |align| from |amsmath|.
 % It is inspired by a \TeX.StackEchange question \url{http://tex.stackexchange.com/q/96210/11002} by a user called ``Werner'',
 %  and by an answer of mine to the question.
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{The behaviour}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % The package is activated by simply loading it, and it does not have any package options.
 % It just redefines |eqnarray| and |eqnarray*|,
 %  and then it makes |amsthm| aware of this redefinition so that |\qedhere| works inside these environments.
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{License and remarks}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \begin{enumerate}[(1)]
 %
@@ -114,9 +110,9 @@
 %
 % \end{enumerate}
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Implementation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %    \begin{macrocode}
 %<*package>
