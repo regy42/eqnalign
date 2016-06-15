@@ -20,21 +20,21 @@
 \catcode`\&=4
 \gdef\eqna@tab@amp{&}
 \catcode`\&=13
-\gdef\eqna@newamp{%
+\gdef\eqna@new@amp{%
    \ifx\@currenvir\eqna@currenvir
-      \eqna@doamp
+      \eqna@amp@
    \else
       \eqna@tab@amp
    \fi
 }
-\gdef\eqna@amp@i{\eqna@origamp\let\eqna@doamp\eqna@amp@ii}
-\gdef\eqna@amp@ii{\let\eqna@doamp\eqna@amp@iii}
-\gdef\eqna@amp@iii{\eqna@origamp}
-\global\let\eqna@doamp\eqna@amp@i
+\gdef\eqna@amp@i{\eqna@tab@amp\let\eqna@amp@\eqna@amp@ii}
+\gdef\eqna@amp@ii{\let\eqna@amp@\eqna@amp@iii}
+\gdef\eqna@amp@iii{\eqna@tab@amp}
+\global\let\eqna@amp@\eqna@amp@i
 \gdef\eqna@hook{%
    \let\eqna@currenvir\@currenvir
    \catcode`\&=\active
-   \let&\eqna@newamp
+   \let&\eqna@new@amp
 }
 \catcode`\*=11
 \gdef\eqna@def@env{%
