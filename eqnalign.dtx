@@ -123,7 +123,7 @@
 %    \end{macrocode}
 % Package header.
 %    \begin{macrocode}
-\ProvidesPackage{eqnalign}[2016/06/15 v1.0a Make eqnarray(*) behave like align(*).]
+\ProvidesPackage{eqnalign}[2016/08/25 v1.0a Make eqnarray(*) behave like align(*).]
 %    \end{macrocode}
 % The only necessary package is |amsmath| so that |align| and |align*| are defined.
 %    \begin{macrocode}
@@ -136,7 +136,7 @@
 \begingroup
 %    \end{macrocode}
 %
-% \begin{macro}{\eqna@origamp}
+% \begin{macro}{\eqna@tab@amp}
 %    We store a catcode-4 (tab alignment char) |&| in a macro.
 %    We need a catcode-13 (active) |&| througout the rest of the package.
 %    \begin{macrocode}
@@ -148,7 +148,7 @@
 %
 % \begin{macro}{\eqna@new@amp}
 %    This will be the replacement of |&| inside |eqnarray|.
-%    We use |\eqna@amp@| if the innermost environment is |eqnarray| and |\eqna@origamp| otherwise;
+%    We use |\eqna@amp@| if the innermost environment is |eqnarray| and |\eqna@tab@amp| otherwise;
 %     this is to allow things like arrays and matrices inside |eqnarray|.
 %    \begin{macrocode}
 \gdef\eqna@new@amp{%
@@ -185,9 +185,9 @@
 % \end{macro}
 %
 % \begin{macro}{\eqna@hook}
-%    The default meaning of |&| is |\eqna@amp@i|.
+%    Hook exectuted at the beginning of |eqnarray|.
 %    We store the current environment, which is either |eqnarray| or |eqnarray*|;
-%     it is used in |\eqna@new@amp| for the test for inner environments.
+%     it is used in |\eqna@new@amp| for the test for nested environments.
 %    Then we activate |&| and make its meaning |\eqna@new@amp|.
 %    \begin{macrocode}
 \gdef\eqna@hook{%
