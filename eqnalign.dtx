@@ -91,22 +91,40 @@
 % The package is activated by simply loading it, and it does not have any package options.
 % It just redefines |eqnarray| and |eqnarray*|,
 %  and then it makes |amsthm| aware of this redefinition so that |\qedhere| works inside these environments.
+% At the same time, we keep the original definition od |eqnarray| and |eqnarray*| as |EQNarray| and |EQNarray*|,
+%  respectively.
+% Note that |hyperref| modifies |eqnarray|, so the package shall be loaded after |hyperref|;
+%  this also means that |hyperref| tweaks do not make it into |EQNarray|(|*|).
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Known issues}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{enumerate}[(1)]
+%
+% \item
+% Due to catcode changes, |eqnarray| will not work inside macro arguments and similar contexts.
+%
+% \end{enumerate}
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{License and remarks}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \begin{enumerate}[(1)]
+% \begin{enumerate}[(A)]
 %
-% \item The package is licensed under the \LaTeX\@ Project Public License version 1.3c (LPPL v1.3c) or higher.
+% \item
+% The package is licensed under the \LaTeX\@ Project Public License version 1.3c (LPPL v1.3c) or higher.
 % The latest version of this license is in \url{http://www.latex-project.org/lppl.txt}\,.
 %
-% \item Note that actually, the usage of this package is discouraged, in favour of converting the code into
+% \item
+% Note that actually, the usage of this package is discouraged, in favour of converting the code into
 %  proper ``|amsmath| code'', using the true |align| and |align*| environments.
 % It is intended for cases where a lot of already existing code needs to be converted and there
 %  is no capacity for doing it the right but time-consuming way.
 %
-% \item All bugs shall be reported to the GitHub page \url{http://github.com/tohecz/eqnalign}\,.
+% \item
+% All bugs shall be reported to the GitHub page \url{http://github.com/tohecz/eqnalign}\,.
 % Just note that unless the bug is crucial or easy to deal with, it may not be fixed since
 %  (per the previous remark) single problematic cases shall be dealt with by other means.
 %
