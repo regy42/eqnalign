@@ -14,6 +14,7 @@
 \usepackage{enumerate}
 \usepackage{xcolor}
 \usepackage{url, hyperref}
+\usepackage{amsmath}
 
 \DisableCrossrefs
 \CodelineNumbered
@@ -96,16 +97,10 @@
 % Note that |hyperref| modifies |eqnarray|, so the package shall be loaded after |hyperref|;
 %  this also means that |hyperref| tweaks do not make it into |EQNarray|(|*|).
 %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Known issues}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \begin{enumerate}[(1)]
-%
-% \item
-% Due to catcode changes, |eqnarray| will not work inside macro arguments and similar contexts.
-%
-% \end{enumerate}
+% The main feature is implemented in a simple way:
+% We keep track of |&| count, and we disable the 2nd |&| of each line.
+% (Note that we also disable the 5th, 8th etc.\@ ones.)
+% We do it in a way that correctly interacts with cases such as when |array| or |matrix| is inside the environment.
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{License and remarks}
@@ -131,6 +126,68 @@
 % \end{enumerate}
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Known issues}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \begin{enumerate}[(1)]
+%
+% \item
+% Due to catcode changes, |eqnarray| will not work inside macro arguments and similar contexts.
+%
+% \item
+% \fboxsep-5pt
+% Note that as the package actually ignores the 2nd |&| of an |eqnarray| line,
+%  it in turn kills the alignment in cases such as the following:
+% \\[-\baselineskip]
+% \begin{tabular}[c]{@{}p{0.55\linewidth}@{}}
+% \begin{verbatim}
+%\begin{eqnarray*}
+%  A & = & 104 x^5 + 84 x^4 + 53 x^3 \\
+%    &   & + 17 x^2 + 4 x - 1043
+%\end{eqnarray*}\end{verbatim}
+% \end{tabular}
+% \fbox{\parbox[c]{0.35\linewidth}{\begin{eqnarray*}
+%   A & = & 104 x^5 + 84 x^4 + 53 x^3 \\
+%     & & + 17 x^2 + 4 x - 1043
+%  \end{eqnarray*}}}
+% \vspace{-\baselineskip}
+%
+% This becomes, when |eqnalign| is loaded:
+% \\[-\baselineskip]
+% \begin{tabular}[c]{@{}p{0.55\linewidth}@{}}
+% \begin{verbatim}
+%\begin{align*}
+%  A & = 104 x^5 + 84 x^4 + 53 x^3 \\
+%    & + 17 x^2 + 4 x - 1043
+%\end{align*}\end{verbatim}
+% \end{tabular}
+%  \fbox{\parbox[c]{0.35\linewidth}{\begin{align*}
+%   A & = 104 x^5 + 84 x^4 + 53 x^3 \\
+%     & + 17 x^2 + 4 x - 1043
+%  \end{align*}}}
+% \vspace{-\baselineskip}
+%
+% However, the prefered form would be, for instance:
+% \\[-\baselineskip]
+% \begin{tabular}[c]{@{}p{0.55\linewidth}@{}}
+% \begin{verbatim}
+%\begin{align*}
+%  A & = 104 x^5 + 84 x^4 + 53 x^3 \\
+%    & \phantom{={}} + 17 x^2 + 4 x - 1043
+%\end{align*}\end{verbatim}
+% \end{tabular}
+%  \fbox{\parbox[c]{0.35\linewidth}{\begin{align*}
+%   A & = 104 x^5 + 84 x^4 + 53 x^3 \\
+%     & \phantom{={}} + 17 x^2 + 4 x - 1043
+%  \end{align*}}}
+% \vspace{-\baselineskip}
+%
+% This issue is actually somehow inherited from |align|, which in stardard usage shows the very same behaviour.
+%
+%
+% \end{enumerate}
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Implementation}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -141,7 +198,7 @@
 %    \end{macrocode}
 % Package header.
 %    \begin{macrocode}
-\ProvidesPackage{eqnalign}[2016/09/16 v1.0 Make eqnarray(*) behave like align(*).]
+\ProvidesPackage{eqnalign}[2016/09/16 v1.0a Make eqnarray(*) behave like align(*).]
 %    \end{macrocode}
 % The only necessary package is |amsmath| so that |align| and |align*| are defined.
 %    \begin{macrocode}
