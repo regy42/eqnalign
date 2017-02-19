@@ -24,3 +24,6 @@ It contains:
 - `README.md` - this Readme
 - `LICENSE` - the license information
 
+## Contents of the package
+
+The package, as presented at CTAN is a single file `eqnalign.sty` and its documentation `eqnalign.pdf`. They are compiled from `eqnalign.dtx` and `eqnalign.sty`.
